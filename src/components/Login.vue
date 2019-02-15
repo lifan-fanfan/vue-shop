@@ -32,8 +32,8 @@ export default {
   data() {
     return {
       Loginfrom: {
-        username: '',
-        password: ''
+        username: 'admin',
+        password: '123456'
       },
       rules: {
         username: [
@@ -53,6 +53,8 @@ export default {
           }
           window.sessionStorage.setItem('token', res.data.token)
           this.$router.push('/home')
+        } else {
+          this.$message.error('用户名或者密码不能为空')
         }
       })
     },
