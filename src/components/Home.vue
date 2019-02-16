@@ -14,12 +14,15 @@
           background-color="#333744"
           text-color="#fff"
           active-text-color="#409EFF"
-          :style="menushow?'width:65px;':'width:200px;'"
           :collapse="menushow"
           :collapse-transition="false"
           :unique-opened="true"
         >
-          <el-submenu v-for="(item,i) in menuList" :key="item.id" :index="item.id + ''">
+          <el-submenu 
+          v-for="(item,i) in menuList" 
+          :key="item.id" :index="item.id + ''"
+          :style="menushow?'width:65px;':'width:200px;'"
+          >
             <template slot="title">
               <i :class="'iconfont icon-' + menuIcon[i]"></i>
               <span>{{item.authName}}</span>
@@ -102,7 +105,6 @@ export default {
     }
   }
   .el-aside {
-    overflow: hidden;
     user-select: none;
     background: #333744;
     .switch {
