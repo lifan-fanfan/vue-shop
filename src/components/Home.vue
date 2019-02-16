@@ -19,10 +19,11 @@
           :unique-opened="true"
           :router="true"
         >
-          <el-submenu 
-          v-for="(item,i) in menuList" 
-          :key="item.id" :index="item.id + ''"
-          :style="menushow?'width:65px;':'width:200px;'"
+          <el-submenu
+            v-for="(item,i) in menuList"
+            :key="item.id"
+            :index="item.id + ''"
+            :style="menushow?'width:65px;':'width:200px;'"
           >
             <template slot="title">
               <i :class="'iconfont icon-' + menuIcon[i]"></i>

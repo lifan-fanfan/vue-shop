@@ -7,6 +7,7 @@
       <el-breadcrumb-item>用户列表</el-breadcrumb-item>
     </el-breadcrumb>
     <p>{{userList}}</p>
+    <el-card class="box-card"></el-card>
   </div>
 </template>
 
