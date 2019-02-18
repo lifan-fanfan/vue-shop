@@ -34,7 +34,7 @@
                 :index="item2.id+ '-' +item2.id"
               >
               <i class="el-icon-menu"></i>
-              {{item.authName}}
+              {{item2.authName}}
               </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
