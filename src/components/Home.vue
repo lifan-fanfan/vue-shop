@@ -19,23 +19,20 @@
           :unique-opened="true"
           :router="true"
         >
-          <el-submenu 
-          v-for="(item,i) in menuList" 
-          :key="item.id" :index="item.id + ''"
-          :style="menushow?'width:65px;':'width:200px;'"
+          <el-submenu
+            v-for="(item,i) in menuList"
+            :key="item.id"
+            :index="item.id + ''"
+            :style="menushow?'width:65px;':'width:200px;'"
           >
             <template slot="title">
               <i :class="'iconfont icon-' + menuIcon[i]"></i>
               <span>{{item.authName}}</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item
-                v-for="item2 in item.children"
-                :key="item2.id"
-                :index="item2.id+ '-' +item2.id"
-              >
-              <i class="el-icon-menu"></i>
-              {{item2.authName}}
+              <el-menu-item v-for="item2 in item.children" :key="item2.id" :index="item2.path">
+                <i class="el-icon-menu"></i>
+                {{item2.authName}}
               </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
