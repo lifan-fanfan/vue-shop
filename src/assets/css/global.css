@@ -10,3 +10,16 @@ el-menu-item {
 i.iconfont {
   margin-right: 10px;
 }
+.el-card {
+  margin-top: 20px;
+  box-shadow: 0 1px 1px rgba(0,0,0,.15) !important;
+}
+.el-table {
+  margin-top: 15px;
+  font-size: 12px; 
+}
+.el-pagination {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 12px; 
+}
