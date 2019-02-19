@@ -203,12 +203,12 @@ export default {
         return this.$message.error(res.meta.msg)
       }
       this.userList = res.data.users
-      // 解决一页只有一个用户删除之后会返回空的页面
       this.queryParams.total = res.data.total
-      if (res.data.users.length === 0) {
+      // 解决一页只有一个用户删除之后会返回空的页面
+      /* if (res.data.users.length === 0 && this.queryParams.pagenum > 1) {
         this.queryParams.pagenum -= 1
         this.getUserList()
-      }
+      } */
       // console.log(res.data)
     },
     async changeState(id, state) {
@@ -257,6 +257,10 @@ export default {
             return this.$message.error(res.meta.msg)
           }
           this.$message.success(res.meta.msg)
+          // 解决一页只有一个用户删除之后会返回空的页面
+          if (this.userList.length === 1 && this.queryParams.pagenum > 1) {
+            this.queryParams.pagenum--
+          }
           this.getUserList()
         })
         .catch(() => {})
