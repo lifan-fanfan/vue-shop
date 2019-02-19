@@ -208,7 +208,7 @@ export default {
       /* if (res.data.users.length === 0 && this.queryParams.pagenum > 1) {
         this.queryParams.pagenum -= 1
         this.getUserList()
-      } */ 
+      } */
       // console.log(res.data)
     },
     async changeState(id, state) {
