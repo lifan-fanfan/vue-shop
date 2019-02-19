@@ -54,7 +54,12 @@
               @click="deleteUser(scope.row.id)"
             ></el-button>
             <el-tooltip content="分配角色" placement="top" :enterable="false">
-              <el-button type="warning" icon="el-icon-setting" size="small"></el-button>
+              <el-button
+                type="warning"
+                icon="el-icon-setting"
+                size="small"
+                @click="showFenpeiDialog(scope.row.id)"
+              ></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -91,6 +96,7 @@
           <el-button type="primary" @click="addUser">确 定</el-button>
         </span>
       </el-dialog>
+      <!-- 修改用户信息 -->
       <el-dialog
         title="修改用户信息"
         :visible.sync="editDialogVisible"
@@ -111,6 +117,36 @@
         <span slot="footer" class="dialog-footer">
           <el-button @click="editDialogVisible = false">取 消</el-button>
           <el-button type="primary" @click="editUser">确 定</el-button>
+        </span>
+      </el-dialog>
+      <!-- 分配角色 -->
+      <el-dialog
+        title="修改用户信息"
+        :visible.sync="fenpeiDialogVisible"
+        width="50%"
+        @close="fenpeiFormClose"
+      >
+        <el-form
+          :rules="fenpeiFormRules"
+          ref="fenpeiFormRef"
+          :model="fenpeiForm"
+          label-width="100px"
+        >
+          <el-form-item label="当前的用户" prop="username">{{fenpeiForm.username}}</el-form-item>
+          <el-form-item label="分配角色" prop="rid">
+            <el-select v-model="fenpeiForm.rid" placeholder="请选择">
+              <el-option
+                v-for="item in roleInfo"
+                :key="item.id"
+                :label="item.roleName"
+                :value="item.id"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="fenpeiDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="fenpeiRole">确 定</el-button>
         </span>
       </el-dialog>
     </el-card>
@@ -158,6 +194,12 @@ export default {
         email: '',
         mobile: ''
       },
+      fenpeiForm: {
+        username: '',
+        rid: ''
+      },
+      roleInfo: [],
+      fenpeiDialogVisible: false,
       addDialogVisible: false,
       editDialogVisible: false,
       addFormRules: {
@@ -181,6 +223,9 @@ export default {
           { validator: checkMobile, trigger: 'blur' }
         ],
         email: [{ validator: checkEmail, trigger: 'blur' }]
+      },
+      fenpeiFormRules: {
+        email: [{ required: true, message: '角色必填', trigger: 'change' }]
       }
     }
   },
@@ -291,6 +336,34 @@ export default {
           this.getUserList()
         }
       })
+    },
+    fenpeiFormClose() {
+      this.$refs.fenpeiFormRef.resetFields()
+    },
+    async showFenpeiDialog(id) {
+      this.fenpeiDialogVisible = true
+      const { data: res } = await this.$http.get('/users/' + id)
+      if (res.meta.status !== 200) {
+        return this.$message.error(res.meta.msg)
+      }
+      this.fenpeiForm = res.data
+      const { data: res2 } = await this.$http.get('/roles')
+      if (res2.meta.status !== 200) {
+        return this.$message.error(res.meta.msg)
+      }
+      this.roleInfo = res2.data
+    },
+    async fenpeiRole(id) {
+      const { data: res } = await this.$http.put(
+        `users/${this.fenpeiForm.id}/role`,
+        this.fenpeiForm
+      )
+      if (res.meta.status !== 200) {
+        return this.$message.error(res.meta.msg)
+      }
+      this.fenpeiDialogVisible = false
+      this.$message.success(res.meta.msg)
+      this.getUserList()
     }
   }
 }
