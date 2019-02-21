@@ -23,3 +23,10 @@ i.iconfont {
   margin-top: 20px;
   font-size: 12px; 
 }
+.el-tag {
+  margin: 10px 5px;
+}
+.el-row {
+  display: flex;
+  align-items: center;
+}
