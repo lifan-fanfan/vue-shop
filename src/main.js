@@ -5,6 +5,8 @@ import './assets/css/global.css'
 import ElementUI from 'element-ui'
 import './assets/fonts/iconfont.css'
 import axios from 'axios'
+import zkTable from 'vue-table-with-tree-grid'
+Vue.use(zkTable)
 axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
 Vue.prototype.$http = axios
 Vue.use(ElementUI)

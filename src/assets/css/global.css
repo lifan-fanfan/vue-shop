@@ -30,3 +30,6 @@ i.iconfont {
   display: flex;
   align-items: center;
 }
+.zk-table {
+  margin-top: 15px;
+}
