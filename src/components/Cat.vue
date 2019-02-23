@@ -92,7 +92,6 @@ export default {
         cat_name: '',
         cat_pid: 0,
         cat_level: 0
-
       },
       catInfoCascader: [],
       selectedCat: [],
@@ -143,24 +142,26 @@ export default {
     addCatFormClose() {
       this.$refs.addFormRef.resetFields()
     },
-      handleChange() {
-        if(this.selectedCat.length === 0) {
-          this.addForm.cat_pid = 0
-          this.addForm.cat_level = 0
-        } else {
-          let len = this.selectedCat.length
-          this.addForm.cat_pid = this.selectedCat[len-1]
-          this.addForm.cat_level = len
-        }
-      },
-    async addCat() {
-      const {data:res} = await this.$http.post('categories',this.addForm)
-      if(res.meta.status!==201) {
-        return this.$message.error(res.meta.msg)
+    handleChange() {
+      if (this.selectedCat.length === 0) {
+        this.addForm.cat_pid = 0
+        this.addForm.cat_level = 0
+      } else {
+        let len = this.selectedCat.length
+        this.addForm.cat_pid = this.selectedCat[len - 1]
+        this.addForm.cat_level = len
       }
-      this.addDialogVisible = false
-      this.$message.success(res.meta.msg)
-      this.getCatInfo()
+    },
+    async addCat() {
+      this.$refs.addFormRef.validate(async valid => {
+        const { data: res } = await this.$http.post('categories', this.addForm)
+        if (res.meta.status !== 201) {
+          return this.$message.error(res.meta.msg)
+        }
+        this.addDialogVisible = false
+        this.$message.success(res.meta.msg)
+        this.getCatInfo()
+      })
     }
   }
 }
