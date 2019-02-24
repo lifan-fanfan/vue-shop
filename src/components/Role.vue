@@ -6,7 +6,7 @@
       <el-breadcrumb-item>角色列表</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card class="box-card">
-      <el-button type="primary">添加角色</el-button>
+      <el-button type="primary" @click="addDialogVisible = true">添加角色</el-button>
       <el-table :data="roleInfo" border style="width: 100%">
         <el-table-column type="expand" width="70">
           <template slot-scope="info">
@@ -57,7 +57,12 @@
         <el-table-column label="操作" width="350">
           <template slot-scope="info">
             <el-button type="primary" icon="el-icon-edit" size="small">编辑</el-button>
-            <el-button type="danger" icon="el-icon-delete" size="small">删除</el-button>
+            <el-button
+              type="danger"
+              icon="el-icon-delete"
+              size="small"
+              @click="deleteRole(info.row.id)"
+            >删除</el-button>
             <el-button
               type="warning"
               icon="el-icon-setting"
@@ -67,6 +72,22 @@
           </template>
         </el-table-column>
       </el-table>
+      <!-- 添加角色 -->
+      <el-dialog title="添加角色" :visible.sync="addDialogVisible" width="50%" @close="addFormClose">
+        <el-form :rules="addFormRules" ref="addFormRef" :model="addForm" label-width="120px">
+          <el-form-item label="角色名称：" prop="roleName">
+            <el-input v-model="addForm.roleName"></el-input>
+          </el-form-item>
+          <el-form-item label="角色描述：" prop="roleDesc">
+            <el-input v-model="addForm.roleDesc"></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="addDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="addRole">确 定</el-button>
+        </span>
+      </el-dialog>
+      <!-- 分配权限 -->
       <el-dialog title="角色分配" :visible.sync="distributeDialogVisible" width="50%">
         <el-form :model="distributeForm" label-width="130px">
           <el-form-item label="角色名称：">{{distributeForm.roleName}}</el-form-item>
@@ -99,6 +120,15 @@ export default {
   data() {
     return {
       roleInfo: [],
+      // 添加角色数据
+      addFormRules: {
+        roleName: [{ required: true, message: '请输入角色名', trigger: 'blur' }]
+      },
+      addDialogVisible: false,
+      addForm: {
+        roleName: '',
+        roleDesc: ''
+      },
       distributeForm: {
         roleName: '',
         id: 0
@@ -121,6 +151,39 @@ export default {
       this.roleInfo = res.data
       // console.log(this.roleInfo)
     },
+    // 添加角色
+    addRole() {
+      this.$refs.addFormRef.validate(async valid => {
+        const { data: res } = await this.$http.post('/roles', this.addForm)
+        if (res.meta.status !== 201) {
+          return this.$message.error(res.meta.msg)
+        }
+        this.$message.success(res.meta.msg)
+        this.addDialogVisible = false
+        this.getRoleInfo()
+      })
+    },
+    addFormClose() {
+      this.$refs.addFormRef.resetFields()
+    },
+    //删除权限
+    async deleteRole(id) {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(async () => {
+          const { data: res } = await this.$http.delete('roles/' + id)
+          if (res.meta.status !== 200) {
+            return this.$message.error(res.meta.msg)
+          }
+          this.$message.success(res.meta.msg)
+          this.getRoleInfo()
+        })
+        .catch(() => {})
+    },
+    // 删除权限
     closeTag(roleId, rightsId) {
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
         confirmButtonText: '确定',
