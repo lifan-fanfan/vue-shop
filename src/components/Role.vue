@@ -166,7 +166,7 @@ export default {
     addFormClose() {
       this.$refs.addFormRef.resetFields()
     },
-    //删除权限
+    // 删除权限
     async deleteRole(id) {
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
         confirmButtonText: '确定',
