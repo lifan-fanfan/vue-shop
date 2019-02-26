@@ -6,6 +6,7 @@ import ElementUI from 'element-ui'
 import './assets/fonts/iconfont.css'
 import axios from 'axios'
 import zkTable from 'vue-table-with-tree-grid'
+import moment from 'moment'
 Vue.use(zkTable)
 axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
 Vue.prototype.$http = axios
@@ -22,6 +23,9 @@ axios.interceptors.request.use(
     return Promise.reject(error)
   }
 )
+Vue.filter('sjFormat',function(val){
+  return moment(val).format('YYYY-MM-DD h:mm:ss')
+})
 Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
