@@ -90,7 +90,6 @@ export default {
       if (res.meta.status !== 200) {
         return this.$message.error(res.meta.msg)
       }
-      console.log(res.data)
       this.GoodsList = res.data.goods
       this.queryParams.total = res.data.total
     },
