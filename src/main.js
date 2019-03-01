@@ -9,7 +9,7 @@ import zkTable from 'vue-table-with-tree-grid'
 import moment from 'moment'
 import NProgress from 'nprogress'
 // import 'nprogress/nprogress.css'
-// import echarts from 'echarts'
+
 Vue.use(zkTable)
 axios.defaults.baseURL = 'http://127.0.0.1:8765/api/private/v1/'
 Vue.prototype.$http = axios
