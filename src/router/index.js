@@ -30,7 +30,7 @@ const router = new Router({
         { path: '/params', component: Param },
         { path: '/goods', component: Goods },
         { path: '/goodsadd', component: GoodsAdd },
-        { path: '/reports', component: Report },
+        { path: '/reports', component: Report }
       ]
     }
   ]

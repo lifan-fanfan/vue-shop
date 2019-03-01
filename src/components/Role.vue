@@ -173,7 +173,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       })
-        .then(async () => {
+        .then(async() => {
           const { data: res } = await this.$http.delete('roles/' + id)
           if (res.meta.status !== 200) {
             return this.$message.error(res.meta.msg)
@@ -190,7 +190,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       })
-        .then(async () => {
+        .then(async() => {
           const { data: res } = await this.$http.delete(
             `roles/${roleId}/rights/${rightsId}`
           )

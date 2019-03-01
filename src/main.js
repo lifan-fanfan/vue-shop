@@ -19,7 +19,7 @@ axios.interceptors.request.use(
   function(config) {
     let token = window.sessionStorage.getItem('token')
     config.headers.Authorization = token
-    NProgress.start();
+    NProgress.start()
     return config
   },
   function(error) {
@@ -28,12 +28,15 @@ axios.interceptors.request.use(
   }
 )
 // 响应拦截器
-axios.interceptors.response.use(function (response) {
-  NProgress.done()
-  return response;
-}, function (error) {
-  return Promise.reject(error);
-});
+axios.interceptors.response.use(
+  function(response) {
+    NProgress.done()
+    return response
+  },
+  function(error) {
+    return Promise.reject(error)
+  }
+)
 Vue.filter('sjFormat', function(val) {
   return moment(val).format('YYYY-MM-DD h:mm:ss')
 })

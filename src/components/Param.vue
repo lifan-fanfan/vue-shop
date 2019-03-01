@@ -195,26 +195,26 @@ export default {
         this.inputVisible = false
         return null
       }
-      console.log(nowParam)
+      // console.log(nowParam)
       nowParam.attr_vals_arr.push(this.inputValue.trim())
-      let attr_vals_str = nowParam.attr_vals_arr.join(' ')
+      let attrValsStr = nowParam.attr_vals_arr.join(' ')
       const { data: res } = await this.$http.put(
         `categories/${nowParam.cat_id}/attributes/${nowParam.attr_id}`,
         {
           attr_name: nowParam.attr_name,
           attr_sel: this.activeName,
-          attr_vals: attr_vals_str
+          attr_vals: attrValsStr
         }
       )
-      console.log(nowParam.attr_vals_arr)
-      console.log(attr_vals_str)
+      // console.log(nowParam.attr_vals_arr)
+      // console.log(attr_vals_str)
       if (res.meta.status !== 200) {
         return this.$message.error(res.meta.msg)
-        this.getParamsInfo()
       }
       this.$message.success(res.meta.msg)
       this.inputValue = ''
       this.inputVisible = false
+      this.getParamsInfo()
     }
   }
 }
